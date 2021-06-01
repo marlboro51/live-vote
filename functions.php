@@ -251,7 +251,7 @@ function envoiMail($to,$tostr,$from,$fromstr,$subject,$message)
 		$mailer->Host = 'mail.gandi.net';
 		$mailer->SMTPAuth = true;
 		$mailer->Username = "vote@speleos.eu";
-		$mailer->Password = "LpdVLd09!";
+		$mailer->Password = "******"; // insert pwd here
 		$mailer->SMTPSecure = 'STARTTLS';	
 		$mailer->Port = 587;
 
