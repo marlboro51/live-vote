@@ -1,0 +1,292 @@
+body {
+	margin:0;
+	padding:0;
+        font-family:Lucida Grande,Verdana,Arial,Helvetica,sans-serif;
+	padding-top:5px\9;
+	background:lightgrey;
+}
+.header {
+	background-image:url(/img/listheader.gif);
+	background-position:top center;
+	background-repeat:repeat-x;
+	border:1px solid #999999;
+	margin:5px;
+	color:#333333;
+	font-size:11px;
+	font-weight:bold;
+	font-family:Lucida Grande,Verdana,Arial,Helvetica,sans-serif;
+	position:relative;
+	text-align:center;
+	padding:3px;
+	height:13px;
+	height:20px\9;
+}
+.dateheure { float:left; }
+.message {
+	margin:auto;
+}
+.error {
+	color:#CC0000;
+}
+.info {
+	color:#0000CC;
+}
+.logout {
+	position:absolute;
+	right:50px;
+	top:0px;
+	padding:3px;
+}
+a, a:link, a:visited, a:hover {
+        color:#333333;
+        text-decoration:none;
+}
+a:hover {
+	text-decoration:underline;
+}
+.logout a, .logout a:link, .logout a:visited, .logout a:hover {
+	color:#CC0000;
+	margin:0 0 0 50px;
+}
+.content {
+        border:1px solid #999999;
+        margin:5px;
+        color:#333333;
+        font-size:11px;
+        font-weight:bold;
+        position:relative;
+        text-align:center;
+        padding:0px;
+	height:auto;
+}
+.content .content {
+	padding:0px;
+	height:auto;
+}
+.login {
+	width:300px;
+	height:200px;
+	margin:50px auto;
+	position:relative;
+}
+input {
+	width:500px;
+	margin:10px;
+	vertical-align:middle;
+	/*height:20px;*/
+	font-size:20px;
+}
+.radio {
+	width:auto;
+	vertical-align:middle;
+}
+textarea {
+        width:550px;
+        margin:0 10px;
+        vertical-align:middle;
+}
+select {
+        width:550px;
+        margin:0 10px;
+        vertical-align:middle;
+	font-size:20px;
+}
+label {
+	display:inline-block;
+	width:200px;
+	text-align:right;
+	/*height:20px;*/
+	vertical-align:middle;
+}
+.complement {
+	display:inline-block;
+	width:186px;
+}
+.login input, .login label {
+	width:120px;
+}
+input.small { width:78px;}
+.listing {
+	width:800px;
+	height:400px;
+	margin:10px 0;
+}
+table.liste {
+	display:inline-block;
+	border-collapse:collapse;
+}
+table.liste td {
+	border:solid 1px grey;
+	padding:5px 20px;
+}
+
+
+.ctx         {border:1px solid grey;
+              position:absolute; text-align:left; font-family: Arial; font-size:10pt; background-color:lightgrey;
+              color:grey; visibility:hidden; font-style:normal; font-variant:normal; font-weight:bold; white-space: nowrap}
+.ctxl        {padding-left:15px; padding-right:10px}
+.ctxl2       {padding-left:15px; padding-right:10px; background-color:highlight; color:lightgrey;}
+
+.calh        {background-color:lightgrey; color:grey; font-family: Arial; font-size:8pt; text-align:center; font-weight:bold; border:none; border-collapse:collapse;}
+.calh .sel   {background-color:lightgrey; color:#ffcc00; cursor:pointer}
+.calh td     {color:grey; border:1px solid grey;}
+
+.calm        {border:none; background-color:lightgrey; color:grey; font-family: Arial; font-size:8pt; text-align:center}
+.calm .sel   {background-color:lightgrey; color:#ffcc00; font-weight:bold; cursor:pointer}
+.calm td     {color:grey; border:1px solid grey;}
+
+.caly        {background-color:lightgrey; color:grey; font-family: Arial; font-size:8pt; text-align:center}
+.caly .sel   {background-color:lightgrey; color:#ffcc00; font-weight:bold; cursor:pointer}
+.caly td     {color:grey; border:1px solid grey;}
+
+.cal         {background-color:lightgrey; color:grey; font-family: Arial; font-size:8pt; text-align:center;}
+.cal .vide   {background-color:lightgrey; color:grey; font-family: Arial; font-size:8pt; text-align:center;}
+.cal .pas    {background-color:lightgrey; color:grey; font-family: Arial; font-size:8pt; text-align:center;}
+.cal .on     {background-color: #ddddcc; color:grey; font-family: Arial; font-size:8pt; text-align:center}
+.cal .tod    {background-color:lightgrey; color:#ffcc00; font-family: Arial; font-size:8pt; text-align:center; font-weight:bold}
+
+.cal .selvide   {background-color:lightgrey; color:#ffcc00; cursor:pointer; font-weight:bold;}
+.cal .sel    {background-color:lightgrey; color:#ffcc00; cursor:pointer; font-weight:bold}
+.cal .selpas {background-color:lightgrey; color:#ffcc00; cursor:pointer; font-weight:bold}
+.cal .selon  {background-color: #aaaa99; color:#ffcc00; cursor:pointer; font-weight:bold}
+.cal .seltod {background-color: #ffcc00; color:grey; cursor:pointer; font-weight:bold}
+
+#cal         {visibility:hidden}
+
+img.but      {width:16; height:16; cursor:pointer}
+img.but_cal  {width:16; height:14; cursor:pointer}
+
+
+#calendar {
+	position:absolute;
+}
+
+.menuprincipal {
+	padding:5px;
+}
+.contenttable {
+        font-style:italic;
+        text-align:left;
+        font-size:11px;
+	border-spacing:5px;
+	width:100%;
+}
+
+.contenttable td {
+	border:solid 1px #999999;
+	padding:10px;
+}
+.contenttable td.menuinterne {
+	width:300px
+}
+.contenttable h3 {
+	font-style:normal;
+}
+span.liste {
+	text-align:left;
+	display:inline-block;
+}
+
+span.question {
+	background:none repeat scroll 0 0 lightgrey;
+	border:1px solid grey;
+	display:inline-block;
+	vertical-align:top;
+	width:400px;
+}
+
+#addComment form {
+        width:500px;
+        margin:10px auto;
+        position:relative;
+}
+#addComment form input {
+        width:500px;
+        margin:0px;
+}
+#addComment form textarea {
+	width:500px;
+	height:150px;
+	margin:0px;
+}
+#allComment div {
+	border:solid 1px grey;
+	background : white;
+	width:500px;
+	padding:10px;
+	margin:10px auto;
+	position:relative;
+}
+
+#allComment div input.remove {
+	width:auto;
+	display:block;
+	position:absolute;
+	right:0px;
+	top:10px;
+	margin:auto 10px;
+}
+
+#vote button {
+	width:500px;
+	padding:10px;
+	margin:10px auto;
+	display:block;
+	background:lightgrey;
+}
+
+#vote button.selected  {
+	background:grey;
+}
+
+#allComment p span {
+	display:inline-block;
+}
+#allComment p span.label {
+	width:350px;
+}
+
+#allComment p span.voies {
+	position:absolute;
+	float:right;
+	right:70px;
+	width:80px;
+}
+#allComment p span.percent {
+	float:right;
+	right:10px;
+	position:absolute;
+}
+label.ligne  {
+	width:auto;
+/*	font-size:10px;*/
+}
+#addComment div.tab form input  {
+	width:auto;
+}
+#allComment div div.result {
+	width:auto;
+	position:absolute;
+	right:10px;
+	top:0px;
+}
+body  { font-size:20px; text-align:center; }
+div#user {
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    background-color: white;
+    width: 300px;
+    border-left: solid 5px grey;
+    overflow: scroll;
+}
+span.nom {
+    display:inline-block;
+    width:500px;
+    overflow:hidden;
+    height:25px;
+    text-align:left;
+}
+
