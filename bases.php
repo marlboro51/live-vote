@@ -49,7 +49,7 @@
 		{
 			case "MYSQL" :
 				$queryRes = mysqli_query($GDB["LINK"],$query) or Error("Unable to query $query");
-				if (preg_match("/select /i", $query)) 
+				if (preg_match("/^select /i", $query)) 
 				{
 					switch (strtoupper($mode))
 					{
@@ -72,7 +72,7 @@
 					}
 //					mysqli_free_result($queryRes) or Error("Unable to free results.");
 				}
-				if (preg_match("/insert /i", $query))
+				if (preg_match("/^insert /i", $query))
 				{
 					$results = mysqli_insert_id($GDB["LINK"]);
 				}
