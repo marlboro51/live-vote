@@ -17,12 +17,11 @@ case 'addVote':
 	$question = getPost('question','');
 	$reponses = getPost('reponses','');
 	$reunion = getSession('reunion',0);
-	$multi = getPost('multi',0);
-
+	$multi = getPost('multi',"off");
 	if ($question != '' && $reponses!='' && $reunion >0)
 	{
-		$type=0;
-		if ($multi == 'on') $type=1;
+		$type=1;
+		if ($multi ==  "on") $type=2;
 		$query = "INSERT INTO VOTE SET VOTE_Question='".mysqli_real_escape_string($GDB["LINK"],$question)."', VOTE_Reponses='".mysqli_real_escape_string($GDB["LINK"],$reponses)."', VOTE_ListeId=$reunion, VOTE_Type=$type, VOTE_Status=1, VOTE_Date=now()";
 		SQL($query);
 	}

@@ -120,7 +120,7 @@ if ($logged > 0 && $reunion > 0)
                                         $choix = explode("\r\n",$v[2]);
                                         foreach ($choix as $i => $c)
                                         {
-                                                printf("<button class='%s %s' id=choix%s_%s_%s val=%s>%s</button><br/>\n",$divVoteId,($v[3]==1)?"single":"multi",$v[0],$procu[0],$i,$i,$c);
+                                                printf("<button class='%s %s' id=choix%s_%s_%s val=%s>%s</button><br/>\n",$divVoteId,($v[3]==2)?"multi":"single",$v[0],$procu[0],$i,$i,$c);
                                         }
                                         printf("<form method=POST><input type=submit value='Voter ([%s] %s %s)' onclick='sendVote(\"%s\",\"%s\",\"%s\"); return false;'></form>\n",$procu[1],$procu[2],$procu[3],$divVoteId,$v[0],$procu[0]);
                                         printf("</div>\n");
