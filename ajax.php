@@ -109,18 +109,20 @@ if ($logged > 0 && $reunion > 0)
 			$query = "SELECT VOTE_Id, VOTE_Question, VOTE_Reponses, VOTE_Type, VOTE_Date FROM VOTE WHERE VOTE_ListeId=$reunion AND VOTE_Status=1 AND VOTE_Date > '".$datelimite."'";
 			$res = SQL($query,"");
 
+			$query = "SELECT 0, GE_NumFFS, GE_Nom, GE_Prenom FROM GE WHERE GE_Id='$logged'";			
+			$moi = SQL($query,"R");
 
                         function addVote($v,$procu)
                         {
-                                        $divVoteId = sprintf("vote%s_%s",$v[0],$procu);
+                                        $divVoteId = sprintf("vote%s_%s",$v[0],$procu[0]);
                                         printf("<div id=%s>\n",$divVoteId);
                                         printf("<h1>%s</h1>\n",$v[1]);
                                         $choix = explode("\r\n",$v[2]);
                                         foreach ($choix as $i => $c)
                                         {
-                                                printf("<button class='%s %s' id=choix%s_%s_%s val=%s>%s</button><br/>\n",$divVoteId,($v[3]==1)?"single":"multi",$v[0],$procu,$i,$i,$c);
+                                                printf("<button class='%s %s' id=choix%s_%s_%s val=%s>%s</button><br/>\n",$divVoteId,($v[3]==1)?"single":"multi",$v[0],$procu[0],$i,$i,$c);
                                         }
-                                        printf("<form method=POST><input type=submit value='Voter' onclick='sendVote(\"%s\",\"%s\",\"%s\"); return false;'></form>\n",$divVoteId,$v[0],$procu);
+                                        printf("<form method=POST><input type=submit value='Voter ([%s] %s %s)' onclick='sendVote(\"%s\",\"%s\",\"%s\"); return false;'></form>\n",$procu[1],$procu[2],$procu[3],$divVoteId,$v[0],$procu[0]);
                                         printf("</div>\n");
                                         printf("<script>\n");
                                         printf("$('button.multi.$divVoteId').click(function(){\n");
@@ -138,10 +140,10 @@ if ($logged > 0 && $reunion > 0)
 
 				$datefin3 = $vote[4];
 
-				$query = "SELECT PROCURATION_GESRCId FROM PROCURATION WHERE PROCURATION_ListeId='$reunion' AND PROCURATION_GEDSTId='$logged'";
-				$procusRecues = SQL($query,"C");
+				$query = "SELECT PROCURATION_GESRCId, GE_NumFFS, GE_Nom, GE_Prenom FROM PROCURATION, GE WHERE PROCURATION_GESRCId=GE_Id AND  PROCURATION_ListeId='$reunion' AND PROCURATION_GEDSTId='$logged'";
+				$procusRecues = SQL($query,"");
 
-				addVote($vote,0);
+				addVote($vote,$moi);
 				foreach ($procusRecues as $procu) // ($voie=0; $voie<=$procusRecues; $voie++)
 				{
 					addVote($vote,$procu);
