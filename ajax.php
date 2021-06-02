@@ -59,8 +59,7 @@ if ($logged > 0 && $reunion > 0)
 				$b = "|";
 				foreach($select as $s)
 				{
-					$n = explode('choix',$s);
-					if (isset($n[1])) $b .= $n[1] . '|';
+					if ($s != "") $b .= $s . '|';
 				}
 				$query = "INSERT INTO BULLETIN SET BULLETIN_VoteId='$voteid', BULLETIN_Choix='$b'";
 				SQL($query);
@@ -121,7 +120,7 @@ if ($logged > 0 && $reunion > 0)
                                         {
                                                 printf("<button class='%s %s' id=choix%s_%s_%s val=%s>%s</button><br/>\n",$divVoteId,($v[3]==1)?"single":"multi",$v[0],$procu,$i,$i,$c);
                                         }
-                                        printf("<form method=POST><input type=submit value='Voter' onclick='sendVote(\"%s\",\"%s\"); return false;'></form>\n",$divVoteId,$procu);
+                                        printf("<form method=POST><input type=submit value='Voter' onclick='sendVote(\"%s\",\"%s\",\"%s\"); return false;'></form>\n",$divVoteId,$v[0],$procu);
                                         printf("</div>\n");
                                         printf("<script>\n");
                                         printf("$('button.multi.$divVoteId').click(function(){\n");
@@ -148,13 +147,13 @@ if ($logged > 0 && $reunion > 0)
 					addVote($vote,$procu);
 				}
 				printf("<script>\n");
-				printf("function sendVote(divVoteId,voie) {\n");
+				printf("function sendVote(divVoteId,vote,voie) {\n");
 				printf("  x = '';\n");
 				printf("  $('div#'+divVoteId+' button.selected').each(function() { x+=$(this).attr('val'); x+=\"\\r\\n\"; });\n");
 			       	printf("  $.ajax({\n");
 			       	printf("       url : 'ajax.php',\n");
 			       	printf("       type : 'POST',\n");
-			       	printf("       data : 'action=vote&vote=%s&voie='+voie+'&bulletin='+x,\n",$vote[0]);
+			       	printf("       data : 'action=vote&vote='+vote+'&voie='+voie+'&bulletin='+x,\n");
 			       	printf("       dataType : 'html',\n");
 			       	printf("       success : function(code_html, statut){\n");
 			       	printf("          $('#'+divVoteId).remove();\n");
