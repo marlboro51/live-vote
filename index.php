@@ -5,18 +5,30 @@
 <script src="jquery.js"></script>
 <link rel="stylesheet" href="style.css" type="text/css" />
 <body>
+<div id="logo"><img src="https://csr-occitanie.fr/wp-content/uploads/2019/03/logo-csr-o-e1553786551757.png"></div>
 <?php
 include('common.php');
 
 $logged = getSession('login',0);
 
-$action = getPost('action','');
+$action = getPost('action','',true);
 switch ($action)
 {
 case 'login':
-	$logged = checkLogin(getPOST('login',''),getPost('mdp',''));
-	if ($logged > 0)
+	$logged = checkLogin(getPost('login','',true),getPost('mdp','',true));
+	if ($logged > 0) 
+	{
 		addSession('login',$logged);
+		logLogin($logged);
+	}
+	else
+	{
+		$login = getPost('login','',true);
+		$mdp = getPost('mdp','',true);
+		$query = "INSERT INTO ERROR SET ERROR_Login='".$login."', ERROR_Mdp='".$mdp."', ERROR_Date=now()";
+		SQL($query);
+		printf("<div class='error'>Identifiants incorrects<br/>L'identifiant est le num&eacute;ro de licence FFS sous la forme A12-123-123<br/>Conseil : faites des copier/coller depuis le mail d'invitation pour &eacute;viter les erreurs de copie.</div>\n");
+	}
 	break;
 
 case 'logout':
@@ -31,7 +43,7 @@ case 'connect':
 	break;
 
 case 'comment':
-	$comment = getPOST('comment','');
+	$comment = getPost('comment','');
 	if ($comment != '')
 	{
 		addComment($comment);
@@ -57,6 +69,13 @@ if ($logged <= 0)
 else
 {
 	$reunion = getSession('reunion',0);
+
+	$query = "SELECT GE_NumFFS, GE_Nom, GE_Prenom FROM GE WHERE GE_Id='$logged'";
+	$infos = SQL($query,"R");
+	$query = "SELECT COUNT(*) FROM PROCURATION WHERE PROCURATION_GEDSTId='$logged' AND PROCURATION_ListeId='$reunion'";
+	$nbProc = SQL($query,"RC");
+	printf("[%s] %s %s - %s procuration%s<br/>\n",$infos[0],$infos[1],$infos[2],$nbProc,($nbProc>1)?"s":"");
+
 	displayLogoutForm();
 	if ($reunion <= 0)
 	{

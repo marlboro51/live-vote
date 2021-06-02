@@ -13,7 +13,7 @@ $action = getPost('action','');
 switch ($action)
 {
 case 'login':
-        $logged = checkLogin(getPOST('login',''),getPost('mdp',''));
+        $logged = checkLogin(getPost('login',''),getPost('mdp',''));
         if ($logged > 0)
                 addSession('login',$logged);
         break;
@@ -28,12 +28,17 @@ case 'connect':
         addSession('reunion',$reunion);
         break;
 
-case 'importUser':
-	break;
-case 'affecte':
+case 'procure':
 	$listeid = getSession('reunion',0);
 	if ($listeid > 0)
 	{
+		$gesrc = getPost('gesrc','');
+		$gedst = getPost('gedst','');
+		if ($gesrc != '' and $gedst!='' and $gesrc!=$gedst) 
+		{
+			$query = "INSERT INTO PROCURATION SET PROCURATION_GESRCId = $gesrc, PROCURATION_GEDSTId = $gedst, PROCURATION_ListeId = $listeid";
+			SQL($query);
+		}
 	}
 	break;
 }
@@ -60,10 +65,11 @@ else
                         printf("<input type='button' value='&lt;&lt; Retour' onclick='document.location.replace(&quot;user.php&quot;)'><br/>");
 
 
-			$query = "SELECT procu.PROCURATION_Id, src.GE_Nom, src.GE_Prenom, src.GE_NumFFS, dst.GE_Nom, dst.GE_Prenom, dst.GE_NumFFS FROM PROCURATION procu LEFT JOIN GE src ON procu.PROCURATION_GESRCId=src.GE_Id LEFT JOIN GE dst ON procu.PROCURATION_GEDSTId=dst.GE_Id WHERE PROCURATION_ListeId='$reunion' ORDER BY dst.GE_Nom, dst.GE_Prenom, src.GE_Nom, src.GE_Prenom";
+			$query = "SELECT procu.PROCURATION_Id, src.GE_Nom, src.GE_Prenom, src.GE_NumFFS, dst.GE_Nom, dst.GE_Prenom, dst.GE_NumFFS FROM PROCURATION procu LEFT JOIN GE src ON procu.PROCURATION_GESRCId=src.GE_Id LEFT JOIN GE dst ON procu.PROCURATION_GEDSTId=dst.GE_Id WHERE PROCURATION_ListeId='$reunion' ORDER BY src.GE_NumFFS, src.GE_Nom, src.GE_Prenom";
 			$procus = SQL($query);
 
 			printf("<div class='tab'>\n");
+			printf("%s procurations<br/>\n",count($procus));
                         foreach ($procus as $procu)
 			{
 				printf("<span class='nom'>[%s] %s %s</span> =&gt; <span class='nom'>[%s] %s %s</span><br/>",$procu[3],$procu[1],$procu[2],$procu[6],$procu[4],$procu[5]);
@@ -81,7 +87,7 @@ else
 
 			$geprocus = SQL($query);
 
-			printf("<select name='gesrc'>\n");
+			printf("<select name='gesrc'><option value=''/>\n");
 			foreach ($geprocus as $src)
 			{
 				if ($src[4]=='0' && $src[5]=='0')
@@ -92,7 +98,7 @@ else
 			printf("=&gt;</br>\n");
 
 
-			printf("<select name='gedst'>\n");
+			printf("<select name='gedst'><option value=''/>\n");
                         foreach ($geprocus as $dst)
                         {
                                 if ($dst[4]=='0' && $dst[5]<2)

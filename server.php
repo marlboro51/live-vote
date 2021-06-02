@@ -1,11 +1,10 @@
 <?php
-mysql -u dgurgopgcf -p -h dgurgopgcf.mysql.db
 	$GDB = array(
 		"TYPE" =>		"MySQL",
-                "DATABASE" =>   "dgurgopgcf",
-                "USERNAME" =>   "dgurgopgcf",
-                "PASSWORD" =>   "Sj79Og75Laaos",
-                "HOSTNAME" =>   "dgurgopgcf.mysql.db"
+                "DATABASE" =>   "vote",
+                "USERNAME" =>   "vote",
+                "PASSWORD" =>   "vote",
+                "HOSTNAME" =>   "localhost"
 	);
 	$GOOGLE_TRACKER_CODE = " ";
 	$GOOGLE_VERIFY = " ";

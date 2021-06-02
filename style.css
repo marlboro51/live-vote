@@ -227,7 +227,7 @@ span.question {
 	margin:auto 10px;
 }
 
-#vote button {
+button {
 	width:500px;
 	padding:10px;
 	margin:10px auto;
@@ -235,7 +235,7 @@ span.question {
 	background:lightgrey;
 }
 
-#vote button.selected  {
+button.selected  {
 	background:grey;
 }
 
@@ -289,4 +289,8 @@ span.nom {
     height:25px;
     text-align:left;
 }
-
+div#logo {
+	position:absolute;
+	top:0px;
+	left:0px;
+}

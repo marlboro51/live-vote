@@ -1,12 +1,15 @@
 <?php
 include('bases.php');
 require_once 'class.phpmailer.php';
-function getPost($action,$default)
+function getPost($action,$default,$readGet=false)
 {
 	if (isset($_POST[$action]))
 		return $_POST[$action];
 	else
-		return $default;
+		if ($readGet && isset($_GET[$action]))
+			return $_GET[$action];
+		else
+			return $default;
 }
 function addSession($key,$value)
 {
@@ -41,6 +44,11 @@ function checkLogin($login,$mdp)
 	$query = "SELECT GE_Id FROM GE WHERE GE_NumFFS='".$login."' AND GE_MotDePasse=PASSWORD('".$mdp."')";
 	return SQL($query,"RC");
 
+}
+function logLogin($login)
+{
+	$query = "INSERT INTO LOG SET LOG_GEId=$login, LOG_LastLogin=now() ON DUPLICATE KEY UPDATE LOG_LastLogin=now()";
+	SQL($query);
 }
 function isAdmin()
 {
@@ -251,7 +259,7 @@ function envoiMail($to,$tostr,$from,$fromstr,$subject,$message)
 		$mailer->Host = 'mail.gandi.net';
 		$mailer->SMTPAuth = true;
 		$mailer->Username = "vote@speleos.eu";
-		$mailer->Password = "******"; // insert pwd here
+		$mailer->Password = "********";
 		$mailer->SMTPSecure = 'STARTTLS';	
 		$mailer->Port = 587;
 

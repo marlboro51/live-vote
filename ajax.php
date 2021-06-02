@@ -30,18 +30,31 @@ if ($logged > 0 && $reunion > 0)
 	case 'vote':
 		$bulletin = getPost('bulletin','');
 		$voteid = getPost('vote',0);
+		$procuId = getPost('voie',0);
 		if ($voteid != 0 && $bulletin != '')
 		{
+			$query = "SELECT VOTE_Status FROM VOTE WHERE VOTE_Id='$voteid'";
+			$status = SQL($query,"RC");
+
 			$query = "SELECT COUNT(*) FROM PROCURATION WHERE PROCURATION_ListeId='$reunion' AND PROCURATION_GESRCId='$logged'";
 			$aDonneProcu = SQL($query,"RC");
 
-			$query = "SELECT COUNT(*) FROM PROCURATION WHERE PROCURATION_ListeId='$reunion' AND PROCURATION_GEDSTId='$logged'";
-			$procusRecues = SQL($query,"RC");
+			$query = "SELECT PROCURATION_GESRCId FROM PROCURATION WHERE PROCURATION_ListeId='$reunion' AND PROCURATION_GEDSTId='$logged'";
+			$procusRecues = SQL($query,"C");
 
-			$query = "SELECT COUNT(*) FROM EMARGEMENT WHERE EMARGEMENT_GEId='$logged' AND EMARGEMENT_VoteId='$voteid'";
+			$query = "SELECT COUNT(*) FROM EMARGEMENT WHERE EMARGEMENT_GEId='$logged' AND EMARGEMENT_VoteId='$voteid' AND EMARGEMENT_Procuration='$procuId'";
 			$voted = SQL($query,"RC");
-			if ($voted == 0 && $aDonneProcu == 0)
-			{
+
+			if ($status != "1") {
+				printf("<div class='error'>Ce vote n'est pas (plus) ouvert</div>\n");
+			}
+			else if ($voted >0) {
+				printf("<div class='error'>Vous avez d&eacute;j&agrave; vot&eacute;!</div>\n");
+			} else if ($aDonneProcu> 0) {
+				printf("<div class='error'>Vous ne pouvez pas voter car vous avez donn&eacute; une procuration! </div>\n");
+			} else if ($procuId != 0 && !in_array($procuId,$procusRecues)) {
+				printf("<div class='error'>Procuration invalide</div>\n");
+			} else {	
 				$select = explode("\r\n",$bulletin);
 				$b = "|";
 				foreach($select as $s)
@@ -50,16 +63,11 @@ if ($logged > 0 && $reunion > 0)
 					if (isset($n[1])) $b .= $n[1] . '|';
 				}
 				$query = "INSERT INTO BULLETIN SET BULLETIN_VoteId='$voteid', BULLETIN_Choix='$b'";
-				for ($i=0; $i<=$procusRecues; $i++)
-				{
-					SQL($query);
-				}
-				$query = "INSERT INTO EMARGEMENT SET EMARGEMENT_GEId='$logged', EMARGEMENT_VoteId='$voteid', EMARGEMENT_Procuration='$procusRecues'";
+				SQL($query);
+				$query = "INSERT INTO EMARGEMENT SET EMARGEMENT_GEId='$logged', EMARGEMENT_VoteId='$voteid', EMARGEMENT_Procuration='$procuId'";
 				SQL($query);
 				printf("<div class='ok'>Vote pris en compte</div>\n");
 			}
-			else
-				printf("<div class='error'>Vous avez d&eacute;j&agrave; vot&eacute;!</div>\n");
 		}
 		break;
 	case 'getVote' :
@@ -102,38 +110,54 @@ if ($logged > 0 && $reunion > 0)
 			$query = "SELECT VOTE_Id, VOTE_Question, VOTE_Reponses, VOTE_Type, VOTE_Date FROM VOTE WHERE VOTE_ListeId=$reunion AND VOTE_Status=1 AND VOTE_Date > '".$datelimite."'";
 			$res = SQL($query,"");
 
+
+                        function addVote($v,$procu)
+                        {
+                                        $divVoteId = sprintf("vote%s_%s",$v[0],$procu);
+                                        printf("<div id=%s>\n",$divVoteId);
+                                        printf("<h1>%s</h1>\n",$v[1]);
+                                        $choix = explode("\r\n",$v[2]);
+                                        foreach ($choix as $i => $c)
+                                        {
+                                                printf("<button class='%s %s' id=choix%s_%s_%s val=%s>%s</button><br/>\n",$divVoteId,($v[3]==1)?"single":"multi",$v[0],$procu,$i,$i,$c);
+                                        }
+                                        printf("<form method=POST><input type=submit value='Voter' onclick='sendVote(\"%s\",\"%s\"); return false;'></form>\n",$divVoteId,$procu);
+                                        printf("</div>\n");
+                                        printf("<script>\n");
+                                        printf("$('button.multi.$divVoteId').click(function(){\n");
+                                        printf("        $(this).toggleClass('selected');\n");
+                                        printf("});\n");
+                                        printf("$('button.single.$divVoteId').click(function(){\n");
+                                        printf("        $(this).toggleClass('selected');\n");
+                                        printf("        $('button.single.$divVoteId').not(this).removeClass('selected');\n");
+                                        printf("});\n");
+                                        printf("</script>\n");
+
+                        }
 			foreach ($res as $vote)
 			{
 
 				$datefin3 = $vote[4];
 
-				printf("<div id=vote>\n");
-				printf("<h1>%s</h1>\n",$vote[1]);
-				$choix = explode("\r\n",$vote[2]);
-				foreach ($choix as $i => $c)
+				$query = "SELECT PROCURATION_GESRCId FROM PROCURATION WHERE PROCURATION_ListeId='$reunion' AND PROCURATION_GEDSTId='$logged'";
+				$procusRecues = SQL($query,"C");
+
+				addVote($vote,0);
+				foreach ($procusRecues as $procu) // ($voie=0; $voie<=$procusRecues; $voie++)
 				{
-			 		printf("<button id=choix%s>%s</button><br/>\n",$i,$c);
+					addVote($vote,$procu);
 				}
-				printf("<form method=POST><input type=submit value='Voter' onclick='sendVote(); return false;'></form>\n");
-		                printf("</div>\n");
-	        	        printf("<script>\n");
-	                	printf("$('button').click(function(){\n");
-		                printf("        $(this).toggleClass('selected');\n");
-				if ($vote[3] == 1)
-				{	
-	        	        	printf("        $('button').not(this).removeClass('selected');\n");
-				}
-				printf("});\n");
-				printf("function sendVote() {\n");
+				printf("<script>\n");
+				printf("function sendVote(divVoteId,voie) {\n");
 				printf("  x = '';\n");
-				printf("  $('div#vote button.selected').each(function() { x+=$(this).attr('id'); x+=\"\\r\\n\"; });\n");
+				printf("  $('div#'+divVoteId+' button.selected').each(function() { x+=$(this).attr('val'); x+=\"\\r\\n\"; });\n");
 			       	printf("  $.ajax({\n");
 			       	printf("       url : 'ajax.php',\n");
 			       	printf("       type : 'POST',\n");
-			       	printf("       data : 'action=vote&vote=%s&bulletin='+x,\n",$vote[0]);
+			       	printf("       data : 'action=vote&vote=%s&voie='+voie+'&bulletin='+x,\n",$vote[0]);
 			       	printf("       dataType : 'html',\n");
 			       	printf("       success : function(code_html, statut){\n");
-			       	printf("          $('#vote').remove();\n");
+			       	printf("          $('#'+divVoteId).remove();\n");
 			       	printf("		 $(code_html).appendTo('#allComment');\n");
 			       	printf("       },\n");
 			       	printf("       error : function(resultat, statut, erreur){\n");
@@ -179,7 +203,7 @@ if ($logged > 0 && $reunion > 0)
 					foreach ($resultats as $index => $res)
 					{
 						printf("<p><span class='label'>%s</span>\n",$reponses[$index]);
-						printf("<span class='voies'>%s voies</span>\n",$res);
+						printf("<span class='voies'>%s voix</span>\n",$res);
 						printf("<span class='percent'>%0.1d %%</span>\n",$res/$count*100);
 						printf("</p>\n");
 					}

@@ -13,7 +13,7 @@ $action = getPost('action','');
 switch ($action)
 {
 case 'login':
-        $logged = checkLogin(getPOST('login',''),getPost('mdp',''));
+        $logged = checkLogin(getPost('login',''),getPost('mdp',''));
         if ($logged > 0)
                 addSession('login',$logged);
         break;
@@ -44,9 +44,13 @@ case 'importUser':
 				$query = "INSERT INTO GE SET GE_Nom='$data[0]', GE_Prenom='$data[1]', GE_Mail='$data[2]', GE_NumFFS='$data[3]', GE_Titre='$data[4]', GE_MotDePasse=PASSWORD('$pwd')";
 				$geid = SQL($query);
 				$message = "";
-				$message .= "Voici vos identifiants de connexion pour les vote en ligne<br/>\n";
+				$message .= "Voici vos identifiants de connexion pour les votes en ligne<br/>\n";
 				$message .= sprintf(" - identifiant (n&deg; FFS) : %s<br/>\n",$data[3]);
 				$message .= sprintf(" - mot de passe : %s<br/>\n",$pwd);
+				$message .= sprintf("Lien vers l'interface de vote : <a href='http://speleos.eu/vote/?action=login&login=%s&mdp=%s'>speleos.eu/vote</a><br/>\n",$data[3],$pwd);
+				$message .= "Restez connect&eacute; pendant l'AG les votes s'afficheront automatiquement au fur et &agrave; mesure.<br/>\n";
+				$message .= "Si vous avez donn&eacute; une procuration, ignorez ce mail. Si vous en avez re&ccedil;u vous aurez plusieurs voix<br/>\n";
+				$message .= "en cas de question : vote@speleos.eu, merci<br/>\n";
 				$message .= "Bonne reunion<br/>\n<br/>\n";
 				$message .= "L'equipe informatique";
 				envoiMail($data[2],$data[0]." ".$data[1],$MAIL_VOTE, $MAIL_VOTE_NOM, "[VOTE FFS] nouvel acces", $message);
