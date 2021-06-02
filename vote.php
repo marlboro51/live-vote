@@ -84,7 +84,7 @@ else
 				printf("<input type=hidden name='vote' value='%s'><input type=submit value='Cloturer'></form>\n",$vote[0]);
 				$query = "SELECT COUNT(*) FROM BULLETIN WHERE BULLETIN_VoteId='$vote[0]'";
 				$bul = SQL($query,"RC");
-				$query = "SELECT COUNT(*) FROM EMARGEMENT WHERE EMARGEMENT_VoteId='$vote[0]'";
+				$query = "SELECT COUNT(*) FROM EMARGEMENT WHERE EMARGEMENT_VoteId='$vote[0]' AND EMARGEMENT_Procuration<>'0'";
 				$procs = SQL($query,"RC");
 				printf("<div class='result' id='part_%s'><span class=nb>%s</span>(<span class='procus'>%s</span>)/<span class=total>%s</span></div>\n",$vote[0],$bul,$procs,$totalge);
 				$query = "select GE_NumFFS, GE_Nom, GE_Prenom, COUNT(*) FROM GE, EMARGEMENT WHERE GE_Id=EMARGEMENT_GEId AND EMARGEMENT_VoteId='$vote[0]' GROUP BY GE_NumFFS ORDER BY GE_Nom, GE_Prenom";
