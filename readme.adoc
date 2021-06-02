@@ -1,0 +1,74 @@
+= vote en ligne
+
+
+== 1 - connexion
+
+url : http://speleos.eu/vote/
+
+- login : numéro FFS
+- mot de passe : envoyé par mail
+
+== 2 - création d'une réunion
+
+En tant qu'admin un bouton permet d'ajouter une réunion juste en écrivant son nom.
+ex. : 'AG CDS 09' <Ajouter>
+
+Une fois créée ou si la réunion a déjà été créée, il suffit de cliquer sur le bouton correspondant.
+
+== 3 - page principale
+
+La page principale (salle de réunion) permet aux électeurs d'échanger des message et de participer aux votes.
+
+Pour le propriétaire de la salle, elle permet d'accéder à la gestion des électeurs, et à la gestion des votes.
+
+
+=== 3.1 - Gestion des électeurs.
+
+En premier lieu il faut créer une liste d'électeur en cliquant sur <liste des électeurs>
+On peut importer une liste d'électeur depuis Excel :
+
+Les colonnes doivent être :
+Nom | Prenom | Mail | NumFFS | Titre
+
+Il suffit ensuite de copier/coller la liste depuis Excel dans la zone de texte puis <Ajouter>
+
+'Titre' c'est juste une info sur l'électeur : par exemple son club pour un CDS ou son CDS/CSR pour un GE National, etc.
+Le titre 'admin' permet de créer un utilisateur avec les droits 'admin' (possibilité de créer une réunion)
+
+La liste importée est affichée en dessous avec des cases à cocher pour sélectionner qui peut voter (on ne parle pas de procuration à ce niveau)
+Une fois la sélection effectuée on clique sur <Affecter>
+
+La liste remplace l'existante donc pour ajouter un électeur il faut bien conserver cochés tous les autres.
+
+Les Utilisateurs ajoutés reçoivent un mail avec leur numéro FFS, leur mot de passe et un lien vers le site de vote.
+Seuls ceux qui seront sélectionnés comme 'votant' pourront entrer dans la salle de vote.
+
+Les procurations devenues obsolètes après mise a jour de la liste des électeurs seront supprimées.
+
+=== 3.2 - Gestion des procurations
+
+depuis la page de gestion des utilisateurs, cliquer sur <Procurations>
+La liste des procurations est affichée : xxx donne procuration à yyy
+
+en dessous, un bouton <Ajouter procuration> permet d'ajouter une procuration donnée par la personne choisie dans la première liste à la personne choisie dans la seconde.
+
+une fois les procurations ajoutées on peut fermer cette page.
+
+== 4 - Ajout d'un vote
+
+Depuis la page principale de la réunion, on peut ajouter un vote en cliquant sur <Lancer un vote>
+
+Pour créer un vote, on inscrit la question du vote dans la première zone de texte et les différentes réponses possibles dans la seconde (une réponse par ligne).
+la case <Choix multiples> permet d'autoriser plusieurs réponses.
+
+Lorsqu'on clique sur <Créer>, le vote apparaît dans la page principale chez tous les électeurs.
+Des boutons leur permettent de choisir leur réponse puis ils doivent cliquer sur <Voter>
+
+Toujours sur la page des votes, un bouton permet de clôturer le vote. Le résultat est alors affiché dans la page principale de la réunion, pour tous les électeurs.
+L'admin pourra supprimer le message un peu plus tard.
+
+== 5 - Ajout de messages
+
+Tous les participants de la réunion peuvent ajouter un message/poser une question sur la page principale.
+Le message/la question sera vu par tout le monde.
+L'admin peut le supprimer.
