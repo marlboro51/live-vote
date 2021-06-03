@@ -102,7 +102,7 @@ if ($logged > 0 && $reunion > 0)
 			$datefin2 = $msg[1];
 		}
 
-		$query = "SELECT COUNT(*) FROM VOTE WHERE VOTE_ListeId=$reunion AND VOTE_Status=1 AND VOTE_Date > '".$datelimite."'";
+		$query = "SELECT COUNT(*) FROM VOTE, GE_LISTE WHERE GELISTE_ListeId=VOTE_ListeId AND GELISTE_GEId=$logged AND VOTE_ListeId=$reunion AND VOTE_Status=1 AND VOTE_Date > '".$datelimite."'";
 		$nbVote = SQL($query,"RC");
 		if ($nbVote > 0)
 		{
