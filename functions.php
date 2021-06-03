@@ -94,11 +94,11 @@ function displayReunionsList()
 		printf("<form method=POST><input type='hidden' name='action' value='create'><input type='text' name='reunion' /><input type='submit' value='Ajouter'></form>\n");
 	}
 }
-function addReunion($nom)
+function addReunion($nom,$options)
 {
 	global $GDB;
 	$logged = getSession('login',0);
-	$query = "INSERT INTO LISTE SET LISTE_Nom='".mysqli_real_escape_string($GDB["LINK"],$nom)."'";
+	$query = "INSERT INTO LISTE SET LISTE_Nom='".mysqli_real_escape_string($GDB["LINK"],$nom)."', LISTE_Options='$options'";
 	$reunion = SQL($query);
 	$query = "INSERT INTO OWNER SET OWNER_GEId='$logged', OWNER_ListeId='$reunion'";
 	SQL($query);

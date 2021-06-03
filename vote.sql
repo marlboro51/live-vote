@@ -134,6 +134,7 @@ DROP TABLE IF EXISTS `LISTE`;
 CREATE TABLE `LISTE` (
   `LISTE_Id` int(11) NOT NULL auto_increment,
   `LISTE_Nom` varchar(32) default NULL,
+  `LISTE_Options` varchar(16) default NULL,
   PRIMARY KEY  (`LISTE_Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 

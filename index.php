@@ -52,9 +52,12 @@ case 'comment':
 
 case 'create':
 	$nom = getPost('reunion','');
+	$chat = getPost('chat','off');
+	$options = "";
 	if ($nom != '')
 	{
-		addReunion($nom);
+		if ($chat == 'on') $option += 'C';
+		addReunion($nom,$options);
 	}
 
 }
@@ -84,7 +87,11 @@ else
 	else
 	{
 		displayTitre();
-		displayComment();
+                $query = "SELECT LISTE_Options FROM  LISTE WHERE LISTE_Id='$reunion'";
+                $options = SQL($query,"RC");
+		if (strpos($options,"C")!==false)
+			displayComment();
+		
 		launchAjax();
 	}
 	if (isOwner())

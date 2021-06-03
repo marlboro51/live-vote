@@ -86,9 +86,18 @@ case 'affecte':
 			}
 		}
 		// supprimer les procurations impossibles.
+		
 		$query = "DELETE FROM PROCURATION WHERE PROCURATION_ListeId = '$listeid' AND (NOT EXISTS (SELECT * FROM GE_LISTE WHERE GELISTE_ListeId = PROCURATION_ListeId AND GELISTE_GEId = PROCURATION_GESRCId ) OR NOT EXISTS (SELECT * FROM GE_LISTE WHERE GELISTE_ListeId = PROCURATION_ListeId AND GELISTE_GEId = PROCURATION_GEDSTId))";
 		SQL($query);
 	}
+	break;
+case 'addOptions':
+	$listeid = getSession('reunion',0);
+	$chat = getPost('chat','off');
+	$options = "";
+	if ($chat == 'on') $options .= 'C';
+	$query = "UPDATE LISTE SET LISTE_Options='$options' WHERE LISTE_Id='$listeid'";
+	SQL($query);
 	break;
 }
 
@@ -112,6 +121,14 @@ else
 			printf("<div id='addComment'>\n");
 
                         printf("<input type='button' value='&lt;&lt; Retour' onclick='document.location.replace(&quot;.&quot;)'><br/>");
+
+			$query = "SELECT LISTE_Options FROM  LISTE WHERE LISTE_Id='$reunion'";
+			$options = SQL($query,"RC");
+			
+                        printf("<div class='tab'>\n");
+                        printf("<form method=POST><input type=hidden name=action value=addOptions>\n");
+			printf("<input type='checkbox' name='chat' %s>Utiliser le chat<br/><input type=submit value='Valider'></form><br/>\n",(strpos($options,"C")!==false)?"checked='checked'":"");
+			printf("</div>\n");
 
 			printf("<form method=POST>\n");
 			printf("<input type=hidden name=action value=importUser>\n");
