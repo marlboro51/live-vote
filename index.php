@@ -89,8 +89,7 @@ else
 		displayTitre();
                 $query = "SELECT LISTE_Options FROM  LISTE WHERE LISTE_Id='$reunion'";
                 $options = SQL($query,"RC");
-		if (strpos($options,"C")!==false)
-			displayComment();
+		displayComment(strpos($options,"C")!==false);
 		
 		launchAjax();
 	}

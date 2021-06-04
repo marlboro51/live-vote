@@ -111,7 +111,7 @@ function displayTitre()
 	$titre = SQL($query,"RC");
 	printf("<h1>%s</h1>\n",$titre);
 }
-function displayComment()
+function displayComment($displayComment)
 {
 	printf("<div id='allComment'></div>\n");
 	printf("<script>function sendcomment() { \n");
@@ -166,7 +166,7 @@ function displayComment()
        printf("}\n");
        printf("</script>\n");
 
-	if (true)
+	if ($displayComment)
 	{
 		printf("<div id='addComment'><form method=POST onsubmit='sendcomment();return false;'>\n");
 		printf("<p>Envoyer un message : <br/>\n");
